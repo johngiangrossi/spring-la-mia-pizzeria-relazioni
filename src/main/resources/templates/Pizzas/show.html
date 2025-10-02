@@ -7,15 +7,10 @@
 
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}">
 
-    <link rel="stylesheet" th:href="@{/css/application/css}">
+    <link rel="stylesheet" th:href="@{/css/application.css}">
 
-    <!--
-    th:unless="empty" → mostra il titolo solo se empty è false, cioè se la pizza è stata trovata
-    th:text="${pizza.name}" → imposta il contenuto del <title> con il nome della pizza (es. "Margherita")
-    -->
     <title th:unless="empty" th:text="${pizza.name}"></title>
 
-    <!-- th:if="${empty}" → mostra il titolo "Pizza not found" solo se empty è true, cioè se la pizza non esiste -->
     <title th:if="${empty}">Pizza not found</title>
 
 </head>
@@ -24,36 +19,99 @@
 
     <nav th:replace="~{navbar :: navbar('Pizzas')}"></nav>
 
-    <div class="container d-flex justify-content-center">
-        
-        <div class="card w-75 p-1" th:object="${pizza}" th:unless="${empty}">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="card w-75 p-1 col-12 mb-5" th:object="${pizza}" th:unless="${empty}">
 
-            <img th:src="*{url}" class="card-img-top" th:alt="|pizza-*{name}|">
+                <img th:if="*{url}" th:src="*{url}" class="card-img-top" th:alt="|pizza-*{name}|">
 
-            <div class="card-body container">
+                <div class="card-body container">
 
-                <div class="row align-items-center">
+                    <div class="row align-items-center">
 
-                    <h1 class="col-sm-6 col-12 card-title font-weight-bold text-center text-sm-start" th:text="*{name}"></h1>
+                        <h1 class="col-sm-6 col-12 card-title font-weight-bold text-center text-sm-start"
+                            th:text="*{name}"></h1>
 
-                    <p class="col-sm-6 col-12 h4 text-sm-end text-center" th:text="|Price: *{price} &euro;|"></p>
+                        <p class="col-sm-6 col-12 h4 text-sm-end text-center" th:text="|Price: *{price} &euro;|"></p>
 
+                    </div>
+
+                    <!-- mostra descrizione -->
+                    <p class="card-text" th:text="*{description}"></p>
+
+                    <!-- mostra ingredienti -->
+                    <div class="fw-bold">List of ingredients:</div>
+                    <ul id="list-ing" class="list-group" th:if="${ingredientList.size() > 0}">
+
+                        <li th:each="item : ${ingredientList}">
+
+                            <span th:text="${item.ingredient}"></span>
+
+                        </li>
+
+                    </ul>
                 </div>
-
-                <!-- mostra deescrizione -->
-                <p class="card-text" th:text="*{description}"></p>
 
                 <a th:href="@{/pizzas}" class="btn btn-danger"> Return</a>
 
             </div>
 
-        </div>      
+        </div>
+
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="text-center">Special offers</h3>
+
+                <a class="btn btn-primary" th:href="@{/pizzas/{id}/specialOffer(id=${pizza.id})}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-plus-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                    New special offer
+                </a>
+            </div>
+            <table class="table table-striped" th:if="${pizza.specialOffers.size() > 0}">
+                <thead>
+                    <tr>
+                        <td>date begin</td>
+                        <td>date end</td>
+                        <td>title</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr th:each="elem : ${pizza.specialOffers}">
+                        <td th:text="${elem.specialOfferDateBegin}"></td>
+                        <td th:text="${elem.specialOfferDateEnd}"></td>
+                        <td th:text="${elem.title}"></td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{|/specialOffers/edit/${elem.id}|}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path
+                                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div th:unless="${pizza.specialOffers.size() > 0}">
+                <div class="alert alert-primary">
+                    There are no special offers for this pizza
+                </div>
+            </div>
+        </div>
+
+    </div>
     </div>
 
     <div class="container" th:if="${empty}">
 
         <h1>Pizza not found</h1>
-        
+
     </div>
 
     <!-- Bootstrap Bundle with Popper -->

@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}">
+
+    <link rel="stylesheet" th:href="@{/css/application.css}">
+    <title>Special offer</title>
+</head>
+
+
+<body>
+    <nav th:replace="~{navbar :: navbar('Pizzas')}"></nav>
+
+    <div class="container">
+
+        <div class="content">
+
+            <h1 class="text-center py-3" th:text="|Special offer ${specialOffer.pizza.name}|"></h1>
+            <hr>
+
+            <form id="specialOffer-form" th:object="${specialOffer}" th:action="${editMode} ? @{|/specialOffers/edit/${specialOffer.id}|} : @{/specialOffers/create}" method="post">
+               
+                <input type="hidden" th:field="*{pizza}" id="pizza">
+
+                <div class="w-50 row gy-3">
+                
+                    <!-- dati special offer-->
+                    <div class="col-12">
+               
+                        <label class="form-label" for="specialOfferDateBegin">Special offer date begin</label>
+        
+                        <input id="specialOfferDateBegin" type="date" class="form-control" th:field="*{specialOfferDateBegin}" th:errorClass="is-invalid">
+        
+                        <div th:if="${#fields.hasErrors('specialOfferDateBegin')}" class="invalid-feedback">
+        
+                            <ul>
+                                <li th:each="err : ${#fields.errors('specialOfferDateBegin')}" th:text="${err}"></li>
+                            </ul>
+        
+                        </div>
+                
+                    </div>
+                    <div class="col-12">
+                    
+                        <label class="form-label" for="specialOfferDateEnd">Special offer date end</label>
+                    
+                        <input id="specialOfferDateEnd" type="date" class="form-control" th:field="*{specialOfferDateEnd}"
+                            th:errorClass="is-invalid">
+                    
+                        <div th:if="${#fields.hasErrors('specialOfferDateEnd')}" class="invalid-feedback">
+                    
+                            <ul>
+                                <li th:each="err : ${#fields.errors('specialOfferDateEnd')}" th:text="${err}"></li>
+                            </ul>
+                    
+                        </div>
+                    
+                    </div>
+                    <div class="col-12">
+                    
+                        <label class="form-label" for="title">Title</label>
+                    
+                        <input id="title" type="text" class="form-control" th:field="*{title}"
+                            th:errorClass="is-invalid">
+                    
+                        <div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+                    
+                            <ul>
+                                <li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+                            </ul>
+                    
+                        </div>
+                    
+                    </div>
+                    <!-- Salvataggio -->
+                    
+                    <div class="col-12">
+                    
+                        <button class="btn btn-primary" type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
+                            </svg>
+                            Save
+                        </button>
+                    
+                        <a th:href="@{/pizzas/show/{id}(id=${specialOffer.pizza.id})}" class="btn btn-danger">Cancel</a>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Bootstrap Bundle with Popper -->
+    <script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
