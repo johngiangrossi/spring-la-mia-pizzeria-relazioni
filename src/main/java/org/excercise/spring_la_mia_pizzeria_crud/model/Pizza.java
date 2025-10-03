@@ -3,7 +3,10 @@ package org.excercise.spring_la_mia_pizzeria_crud.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+<<<<<<< HEAD
 import jakarta.persistence.Column;
+=======
+>>>>>>> c37cc90eb92a46ae740d6b3158c8b0773bb8ceda
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,9 +17,15 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
+<<<<<<< HEAD
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+=======
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+>>>>>>> c37cc90eb92a46ae740d6b3158c8b0773bb8ceda
 import jakarta.validation.constraints.Size;
 
 
@@ -33,7 +42,11 @@ public class Pizza {
     private Integer id;
 
 
+<<<<<<< HEAD
     @Column(nullable=false)
+=======
+
+>>>>>>> c37cc90eb92a46ae740d6b3158c8b0773bb8ceda
     @NotBlank(message = "name cannot be blank, is mandatory")
     @NotNull(message = "name cannot be null, is mandatory")
     private String name;
@@ -41,10 +54,16 @@ public class Pizza {
     @Size(max = 255, message="description length max 255 char")
     private String description;
 
+<<<<<<< HEAD
     @Email(message = "Must be a valid url")
     private String url;
 
     @Column(nullable=false)
+=======
+    @Pattern(regexp = "^(http|https)://.*$", message = "Must be a valid url")
+    private String url;
+
+>>>>>>> c37cc90eb92a46ae740d6b3158c8b0773bb8ceda
     @DecimalMin("0.00")
     @NotNull(message = "price cannot be null, is mandatory")
     private BigDecimal price;
