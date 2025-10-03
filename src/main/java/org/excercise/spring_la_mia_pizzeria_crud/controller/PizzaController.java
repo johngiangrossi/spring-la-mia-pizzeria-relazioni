@@ -57,6 +57,7 @@ public class PizzaController {
     
 
 
+    // show
     @GetMapping("/show/{id}")
     public String show(@PathVariable("id") Integer id, Model model) {
 
@@ -73,6 +74,7 @@ public class PizzaController {
     
     
 
+    // create
     @GetMapping("/create")
     public String create(Model model) {
 
@@ -102,7 +104,7 @@ public class PizzaController {
     }
     
     
-
+    // edit
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model) {
 
@@ -133,7 +135,7 @@ public class PizzaController {
     }
     
     
-
+    // delete
     @PostMapping("/delete/{id}")
 
     public String delete(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
@@ -149,6 +151,7 @@ public class PizzaController {
     
     
 
+    // specialoffer
     @GetMapping("/{id}/specialOffer")
     public String specialOffer(@PathVariable("id") Integer id, Model model) {
         SpecialOffer specialOffer = new SpecialOffer();
